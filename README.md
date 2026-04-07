@@ -1,4 +1,4 @@
-**IN MAINTENANCE TRANSITION** (April 7th 2026): [@michelml](https://github.com/MichelML) no longer maintains this repository or the npm release of newer rdkit-js versions. [@greglandrum](https://github.com/greglandrum) is supposed to look into transferring the maintenance of the npm releases to someone else in a near future.
+**IN MAINTENANCE TRANSITION** (April 7th 2026): [@michelml](https://github.com/MichelML) no longer maintains this repository or the npm release of newer rdkit-js versions. [@greglandrum](https://github.com/greglandrum) will look into transferring the maintenance of the npm releases to someone else in a near future.
 
 <br />
 <br />
