@@ -79,7 +79,7 @@ SHELL ["/bin/bash", "-c", "-l"]
 
 WORKDIR /src
 RUN wget -q https://github.com/freetype/freetype/archive/refs/tags/VER-${FREETYPE_VERSION//./-}.tar.gz && \
-  tar xzf freetype-${FREETYPE_VERSION}.tar.gz
+  tar xzf freetype-*.tar.gz
 WORKDIR /src/freetype-${FREETYPE_VERSION}
 RUN mkdir build
 WORKDIR /src/freetype-${FREETYPE_VERSION}/build
