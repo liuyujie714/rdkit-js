@@ -78,11 +78,11 @@ RUN echo "source /opt/emsdk/emsdk_env.sh > /dev/null 2>&1" >> ~/.bashrc
 SHELL ["/bin/bash", "-c", "-l"]
 
 WORKDIR /src
-RUN wget -q https://codeload.github.com/freetype/freetype/tar.gz/refs/tags/VER-${FREETYPE_VERSION//./-}  -O freetype-${FREETYPE_VERSION//./-}.tar.gz && \
-  tar xzf freetype-${FREETYPE_VERSION//./-}.tar.gz
-WORKDIR /src/freetype-${FREETYPE_VERSION//./-}
+RUN wget -q https://codeload.github.com/freetype/freetype/tar.gz/refs/tags/VER-${FREETYPE_VERSION//./-} -O freetype-VER-${FREETYPE_VERSION//./-}.tar.gz && \
+  tar xzf freetype-VER-${FREETYPE_VERSION//./-}.tar.gz
+WORKDIR /src/freetype-VER-${FREETYPE_VERSION//./-}
 RUN mkdir build
-WORKDIR /src/freetype-${FREETYPE_VERSION//./-}/build
+WORKDIR /src/freetype-VER-${FREETYPE_VERSION//./-}/build
 RUN emcmake cmake -DCMAKE_BUILD_TYPE=Release -DWITH_ZLIB=OFF -DWITH_BZip2=OFF -DWITH_PNG=OFF \
   -DCMAKE_C_FLAGS="${EXCEPTION_HANDLING}" -DCMAKE_EXE_LINKER_FLAGS="${EXCEPTION_HANDLING}" \
   -DCMAKE_INSTALL_PREFIX=/opt/freetype ..
