@@ -52,7 +52,8 @@ RUN apt-get update && apt-get upgrade -y && apt install -y \
   libeigen3-dev \
   git \
   xz-utils \
-  nodejs
+  nodejs \
+  libexpat1-dev
 
 ENV LANG C
 
@@ -86,7 +87,7 @@ WORKDIR /src/freetype-${FREETYPE_VERSION}/build
 RUN emcmake cmake -DCMAKE_BUILD_TYPE=Release -DWITH_ZLIB=OFF -DWITH_BZip2=OFF -DWITH_PNG=OFF \
   -DCMAKE_C_FLAGS="${EXCEPTION_HANDLING}" -DCMAKE_EXE_LINKER_FLAGS="${EXCEPTION_HANDLING}" \
   -DCMAKE_INSTALL_PREFIX=/opt/freetype ..
-RUN make -j2 && make -j2 install
+RUN make -j4 && make -j4 install
 
 WORKDIR /src
 ENV RDBASE=/src/rdkit
@@ -121,7 +122,7 @@ RUN sed -i 's|^\( *\)\(GenericStringRef\& operator=(const GenericStringRef\& rhs
   /src/rdkit/External/rapidjson-1.1.0/include/rapidjson/document.h
 
 # build and "install"
-RUN make -j2 RDKit_minimal && \
+RUN make -j4 RDKit_minimal && \
   cp Code/MinimalLib/RDKit_minimal.* ../Code/MinimalLib/demo/
 
 # run the tests

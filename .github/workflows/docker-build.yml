@@ -24,3 +24,11 @@ jobs:
         BETA=${{ env.BETA }} \
         NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
         npm run build
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v6
+      with:
+        name: rdkit-js-dist
+        path: |
+          dist/
+          Code/MinimalLib/dist/
