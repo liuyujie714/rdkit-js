@@ -111,8 +111,7 @@ RUN wget -q https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.t
     tar -xzf zlib-1.3.2.tar.gz && \
     cd zlib-1.3.2 && \
     emconfigure ./configure --prefix=/opt/zlib --static && \
-    emmake make && \
-    emmake make install
+    emmake make -j4 && emmake make install
 
 WORKDIR /src
 ENV RDBASE=/src/rdkit
