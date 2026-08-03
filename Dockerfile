@@ -91,7 +91,7 @@ RUN emcmake cmake -DCMAKE_BUILD_TYPE=Release -DWITH_ZLIB=OFF -DWITH_BZip2=OFF -D
   -DCMAKE_INSTALL_PREFIX=/opt/freetype ..
 RUN make -j4 && make -j4 install
 
-# expat
+# expat for rdkit
 WORKDIR /src
 RUN wget -q https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat-2.6.2.tar.gz && \
     tar -xzf expat-2.6.2.tar.gz && \
@@ -104,6 +104,15 @@ RUN wget -q https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat
      make -j4 && \
      make -j4 install && \
      cd / && rm -rf /src/expat-2.6.2*
+
+# zlib for rdkit
+WORKDIR /src
+RUN wget -q https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz && \
+    tar -xzf zlib-1.3.2.tar.gz && \
+    cd zlib-1.3.2 && \
+    emconfigure ./configure --prefix=/opt/zlib --static && \
+    emmake make && \
+    emmake make install
 
 WORKDIR /src
 ENV RDBASE=/src/rdkit
@@ -125,6 +134,8 @@ RUN emcmake cmake -DRDK_BUILD_FREETYPE_SUPPORT=ON -DRDK_BUILD_MINIMAL_LIB=ON \
   -DFREETYPE_LIBRARY=/opt/freetype/lib/libfreetype.a \
   -DEXPAT_LIBRARY=/opt/expat/lib/libexpat.a \
   -DEXPAT_INCLUDE_DIR=/opt/expat/include \
+  -DZLIB_INCLUDE_DIR=/opt/zlib/include \
+  -DZLIB_LIBRARY=/opt/zlib/lib/libz.a \
   -DCMAKE_CXX_FLAGS="-I/opt/expat/include -I/root/rdkit-${RDKIT_BRANCH}/External ${EXCEPTION_HANDLING} -O3 -DNDEBUG" \
   -DCMAKE_C_FLAGS="${EXCEPTION_HANDLING} -O3 -DNDEBUG -DCOMPILE_ANSI_ONLY" \
   -DCMAKE_EXE_LINKER_FLAGS="${EXCEPTION_HANDLING} -s STACK_OVERFLOW_CHECK=1 -s USE_PTHREADS=0 -s ALLOW_MEMORY_GROWTH=1 -s MAXIMUM_MEMORY=4GB -s MODULARIZE=1 -s EXPORT_NAME=\"'initRDKitModule'\"" ..
