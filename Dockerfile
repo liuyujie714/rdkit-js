@@ -78,7 +78,7 @@ RUN echo "source /opt/emsdk/emsdk_env.sh > /dev/null 2>&1" >> ~/.bashrc
 SHELL ["/bin/bash", "-c", "-l"]
 
 WORKDIR /src
-RUN wget -q https://download-mirror.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
+RUN wget -q https://github.com/freetype/freetype/archive/refs/tags/VER-${FREETYPE_VERSION//./-}.tar.gz && \
   tar xzf freetype-${FREETYPE_VERSION}.tar.gz
 WORKDIR /src/freetype-${FREETYPE_VERSION}
 RUN mkdir build
