@@ -78,7 +78,7 @@ RUN echo "source /opt/emsdk/emsdk_env.sh > /dev/null 2>&1" >> ~/.bashrc
 SHELL ["/bin/bash", "-c", "-l"]
 
 WORKDIR /src
-RUN wget -q https://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
+RUN wget -q https://download-mirror.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
   tar xzf freetype-${FREETYPE_VERSION}.tar.gz
 WORKDIR /src/freetype-${FREETYPE_VERSION}
 RUN mkdir build
@@ -98,9 +98,9 @@ RUN wget -q https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat
         --prefix=/opt/expat \
         --enable-static \
         --disable-shared && \
-        make -j4 && \
-        make -j4 install && \
-    cd / && rm -rf /src/expat-2.6.2*
+     make -j4 && \
+     make -j4 install && \
+     cd / && rm -rf /src/expat-2.6.2*
 
 WORKDIR /src
 ENV RDBASE=/src/rdkit
