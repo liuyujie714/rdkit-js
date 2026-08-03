@@ -1,20 +1,14 @@
 name: Docker Build
 
+env:
+  RDKIT_DASH_VERSION: 2026_03_5  
+  SEMVER_VERSION: 1.0.0
+  BETA: false
+
 on:
-  workflow_dispatch:
-    inputs:
-      semver_version:
-        description: 'Semantic version (e.g. 1.0.0)'
-        required: true
-        type: string
-      rdkit_dash_version:
-        description: 'RDKit Dash version'
-        required: true
-        type: string
-      beta:
-        description: 'Beta flag'
-        required: true
-        type: string
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -25,4 +19,8 @@ jobs:
       
     - name: Build with NPM
       run: |
-        RDKIT_DASH_VERSION=${{ inputs.rdkit_dash_version }} SEMVER_VERSION=${{ inputs.semver_version }} BETA=${{ inputs.beta }} NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm run build
+        RDKIT_DASH_VERSION=${{ env.RDKIT_DASH_VERSION }} \
+        SEMVER_VERSION=${{ env.SEMVER_VERSION }} \
+        BETA=${{ env.BETA }} \
+        NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
+        npm run build
