@@ -98,8 +98,8 @@ RUN wget -q https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat
         --prefix=/opt/expat \
         --enable-static \
         --disable-shared && \
-    make -j4 && \
-    make -j4 install && \
+        make -j4 && \
+        make -j4 install && \
     cd / && rm -rf /src/expat-2.6.2*
 
 WORKDIR /src
@@ -125,16 +125,6 @@ RUN emcmake cmake -DRDK_BUILD_FREETYPE_SUPPORT=ON -DRDK_BUILD_MINIMAL_LIB=ON \
   -DCMAKE_CXX_FLAGS="-I/opt/expat/include -I/root/rdkit-${RDKIT_BRANCH}/External ${EXCEPTION_HANDLING} -O3 -DNDEBUG" \
   -DCMAKE_C_FLAGS="${EXCEPTION_HANDLING} -O3 -DNDEBUG -DCOMPILE_ANSI_ONLY" \
   -DCMAKE_EXE_LINKER_FLAGS="${EXCEPTION_HANDLING} -s STACK_OVERFLOW_CHECK=1 -s USE_PTHREADS=0 -s ALLOW_MEMORY_GROWTH=1 -s MAXIMUM_MEMORY=4GB -s MODULARIZE=1 -s EXPORT_NAME=\"'initRDKitModule'\"" ..
-
-# "patch" to make the InChI code work with emscripten:
-RUN cp /src/rdkit/External/INCHI-API/src/INCHI_BASE/src/util.c /src/rdkit/External/INCHI-API/src/INCHI_BASE/src/util.c.bak && \
-  sed 's/&& defined(__APPLE__)//' /src/rdkit/External/INCHI-API/src/INCHI_BASE/src/util.c.bak > /src/rdkit/External/INCHI-API/src/INCHI_BASE/src/util.c
-
-# comment out a line which causes a compilation error on some platforms
-# (based on the change which has already been applied to the RapidJSON master branch, see
-# https://github.com/Tencent/rapidjson/blob/ab1842a2dae061284c0a62dca1cc6d5e7e37e346/include/rapidjson/document.h#L414)
-RUN sed -i 's|^\( *\)\(GenericStringRef\& operator=(const GenericStringRef\& rhs) { s = rhs.s; length = rhs.length; } *\)$|\1//\2|' \
-  /src/rdkit/External/rapidjson-1.1.0/include/rapidjson/document.h
 
 # build and "install"
 RUN make -j4 RDKit_minimal && \
