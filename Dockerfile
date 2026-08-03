@@ -52,8 +52,7 @@ RUN apt-get update && apt-get upgrade -y && apt install -y \
   libeigen3-dev \
   git \
   xz-utils \
-  nodejs \
-  libexpat1-dev
+  nodejs
 
 ENV LANG C
 
@@ -89,6 +88,20 @@ RUN emcmake cmake -DCMAKE_BUILD_TYPE=Release -DWITH_ZLIB=OFF -DWITH_BZip2=OFF -D
   -DCMAKE_INSTALL_PREFIX=/opt/freetype ..
 RUN make -j4 && make -j4 install
 
+# expat
+WORKDIR /src
+RUN wget -q https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat-2.6.2.tar.gz && \
+    tar -xzf expat-2.6.2.tar.gz && \
+    cd expat-2.6.2 && \
+    emconfigure ./configure \
+        --host=wasm32-unknown-emscripten \
+        --prefix=/opt/expat \
+        --enable-static \
+        --disable-shared && \
+    make -j4 && \
+    make -j4 install && \
+    cd / && rm -rf /src/expat-2.6.2*
+
 WORKDIR /src
 ENV RDBASE=/src/rdkit
 RUN git clone ${RDKIT_GIT_URL}
@@ -107,7 +120,9 @@ RUN emcmake cmake -DRDK_BUILD_FREETYPE_SUPPORT=ON -DRDK_BUILD_MINIMAL_LIB=ON \
   -DRDK_BUILD_SLN_SUPPORT=OFF -DRDK_USE_BOOST_IOSTREAMS=OFF \
   -DFREETYPE_INCLUDE_DIRS=/opt/freetype/include/freetype2 \
   -DFREETYPE_LIBRARY=/opt/freetype/lib/libfreetype.a \
-  -DCMAKE_CXX_FLAGS="${EXCEPTION_HANDLING} -O3 -DNDEBUG" \
+  -DEXPAT_LIBRARY=/opt/expat/lib/libexpat.a \
+  -DEXPAT_INCLUDE_DIR=/opt/expat/include \
+  -DCMAKE_CXX_FLAGS="-I/opt/expat/include -I/root/rdkit-${RDKIT_BRANCH}/External ${EXCEPTION_HANDLING} -O3 -DNDEBUG" \
   -DCMAKE_C_FLAGS="${EXCEPTION_HANDLING} -O3 -DNDEBUG -DCOMPILE_ANSI_ONLY" \
   -DCMAKE_EXE_LINKER_FLAGS="${EXCEPTION_HANDLING} -s STACK_OVERFLOW_CHECK=1 -s USE_PTHREADS=0 -s ALLOW_MEMORY_GROWTH=1 -s MAXIMUM_MEMORY=4GB -s MODULARIZE=1 -s EXPORT_NAME=\"'initRDKitModule'\"" ..
 
