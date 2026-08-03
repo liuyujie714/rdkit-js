@@ -78,8 +78,8 @@ RUN echo "source /opt/emsdk/emsdk_env.sh > /dev/null 2>&1" >> ~/.bashrc
 SHELL ["/bin/bash", "-c", "-l"]
 
 WORKDIR /src
-RUN wget -q https://codeload.github.com/freetype/freetype/tar.gz/refs/tags/VER-${FREETYPE_VERSION//./-} && \
-  tar xzf freetype-*.tar.gz
+RUN wget -q https://codeload.github.com/freetype/freetype/tar.gz/refs/tags/VER-${FREETYPE_VERSION//./-}  -O freetype-${FREETYPE_VERSION//./-}.tar.gz && \
+  tar xzf freetype-${FREETYPE_VERSION//./-}.tar.gz
 WORKDIR /src/freetype-${FREETYPE_VERSION//./-}
 RUN mkdir build
 WORKDIR /src/freetype-${FREETYPE_VERSION//./-}/build
