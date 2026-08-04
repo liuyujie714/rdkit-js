@@ -95,5 +95,5 @@ jobs:
           OUTPUT_TAR: rdkit-js-${{env.RDKIT_DASH_VERSION}}.tar.gz
         run: |
           ls -alt
-          tar -czvf ${{env.OUTPUT_TAR}} -C rdkit-js-dist/dist .
+          tar -czvf ${{env.OUTPUT_TAR}} -C rdkit-js-dist .
           github-release upload --tag ${{ env.RELEASE_TAG }} --replace --name ${{env.OUTPUT_TAR}} --file ${{env.OUTPUT_TAR}}
