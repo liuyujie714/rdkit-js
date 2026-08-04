@@ -116,6 +116,11 @@ RUN git clone ${RDKIT_GIT_URL}
 WORKDIR $RDBASE
 RUN git fetch --all --tags && \
   git checkout ${RDKIT_BRANCH}
+  
+# fix avalon
+RUN sed -i '/if(RDK_BUILD_MINIMAL_LIB_RGROUPDECOMP)/,/endif()/ { /endif()/ a\    if(RDK_BUILD_AVALON_SUPPORT)\n        message(STATUS "Adding Avalon support to MinimalLib")\n        add_definitions(-DRDK_BUILD_AVALON_SUPPORT)\n        set(MINIMAL_LIB_LIBRARIES "${MINIMAL_LIB_LIBRARIES};AvalonLib;avalon_clib")\n    endif()\n
+}' /src/rdkit/Code/MinimalLib/CMakeLists.txt
+
 RUN mkdir build
 WORKDIR $RDBASE/build
 RUN emcmake cmake -DRDK_BUILD_FREETYPE_SUPPORT=ON -DRDK_BUILD_MINIMAL_LIB=ON \
