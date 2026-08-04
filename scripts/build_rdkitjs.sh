@@ -69,15 +69,15 @@ echo "MinimalLib distribution files are at $MINIMALLIB_OUTPUT_PATH"
 # Move typescript files to dist folder
 cp typescript/index.d.ts $MINIMALLIB_OUTPUT_PATH/index.d.ts
 
-# Pre-publish
-sed -i '/"private": true/d' ./package.json
-npm --no-git-tag-version --allow-same-version version $NPM_RELEASE_VERSION
-echo "registry=https://registry.npmjs.org/" > .npmrc
-echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc
+# # Pre-publish
+# sed -i '/"private": true/d' ./package.json
+# npm --no-git-tag-version --allow-same-version version $NPM_RELEASE_VERSION
+# echo "registry=https://registry.npmjs.org/" > .npmrc
+# echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc
 
-# Publish
-if [ "$BETA" = "true" ]; then
-    NPM_TOKEN=$NPM_TOKEN npm publish --beta --access public
-else
-    NPM_TOKEN=$NPM_TOKEN npm publish --access public
-fi
+# # Publish
+# if [ "$BETA" = "true" ]; then
+#     NPM_TOKEN=$NPM_TOKEN npm publish --beta --access public
+# else
+#     NPM_TOKEN=$NPM_TOKEN npm publish --access public
+# fi

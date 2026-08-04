@@ -52,10 +52,7 @@ RUN apt-get update && apt-get upgrade -y && apt install -y \
   libeigen3-dev \
   git \
   xz-utils \
-  nodejs \
-  zlib1g-dev \
-  libbz2-dev \
-  libpng-dev
+  nodejs 
 
 ENV LANG C
 
