@@ -122,7 +122,7 @@ RUN sed -i '/if(RDK_BUILD_MINIMAL_LIB_RGROUPDECOMP)/,/endif()/ { /endif()/ s/.*/
 RUN sed -i 's/^std::string get_avalon_fp(/std::string JSMolBase::get_avalon_fp(/' /src/rdkit/Code/MinimalLib/minilib.cpp
 RUN sed -i 's/^std::string get_avalon_fp_as_binary_text(/std::string JSMolBase::get_avalon_fp_as_binary_text(/' /src/rdkit/Code/MinimalLib/minilib.cpp
 # match python api
-RUN sed -i 's/AvalonTools::getAvalonFP(mol, \*fp, nBits);/AvalonTools::getAvalonFP(mol, *fp, nBits, false, true, avalonSimilarityBits);/g' /src/rdkit/Code/MinimalLib/common.h
+RUN sed -i 's/AvalonTools::getAvalonFP(mol, \*fp, nBits);/AvalonTools::getAvalonFP(mol, *fp, nBits, false, true, AvalonTools::avalonSimilarityBits);/g' /src/rdkit/Code/MinimalLib/common.h
 
 RUN mkdir build
 WORKDIR $RDBASE/build
