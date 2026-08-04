@@ -119,6 +119,8 @@ RUN git fetch --all --tags && \
   
 # fix avalon
 RUN sed -i '/if(RDK_BUILD_MINIMAL_LIB_RGROUPDECOMP)/,/endif()/ { /endif()/ s/.*/&\n    if(RDK_BUILD_AVALON_SUPPORT)\n        message(STATUS "Adding Avalon support to MinimalLib")\n        add_definitions(-DRDK_BUILD_AVALON_SUPPORT)\n        set(MINIMAL_LIB_LIBRARIES "${MINIMAL_LIB_LIBRARIES};AvalonLib;avalon_clib")\n    endif()/ }' /src/rdkit/Code/MinimalLib/CMakeLists.txt
+RUN sed -i 's/^std::string get_avalon_fp(/std::string JSMolBase::get_avalon_fp(/' /src/rdkit/Code/MinimalLib/minilib.cpp
+RUN sed -i 's/^std::string get_avalon_fp_as_binary_text(/std::string JSMolBase::get_avalon_fp_as_binary_text(/' /src/rdkit/Code/MinimalLib/minilib.cpp
 
 RUN mkdir build
 WORKDIR $RDBASE/build
