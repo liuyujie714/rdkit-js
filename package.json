@@ -1,6 +1,6 @@
 {
   "name": "@rdkit/rdkit",
-  "version": "2026.03.5",
+  "version": "latest",
   "private": true,
   "description": "JavaScript distribution of cheminformatics functionality from the RDKit - a C++ library for cheminformatics.",
   "main": "dist/RDKit_minimal.js",
